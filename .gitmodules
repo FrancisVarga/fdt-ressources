@@ -1,0 +1,3 @@
+[submodule "tools/robotlegs-ant-utilrobotlegs-utilities-AntGenerators"]
+	path = tools/robotlegs-ant-utilrobotlegs-utilities-AntGenerators
+	url = git@github.com:FrancisVarga/robotlegs-utilities-AntGenerator.git
