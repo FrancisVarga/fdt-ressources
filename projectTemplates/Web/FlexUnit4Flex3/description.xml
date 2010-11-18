@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:projectTemplate xmlns:tns="http://fdt.powerflasher.com/ProjectTemplate"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://fdt.powerflasher.com/ProjectTemplate ../../projectTemplate.xsd">
+	<name>Empty Flex 3 Project with Unit Testing</name>
+	<description>In addition to the libraries for Flex 3 development, this template contains special libraries for unit testing with FlexUnit 4.</description>
+	<projectType>Flex 3</projectType>
+	<folders>
+		<sourceFolder>src</sourceFolder>
+		<sourceFolder>src_test</sourceFolder>
+		<outputFolder>bin</outputFolder>
+	</folders>
+	<libraries>
+		<swc>
+			<path>lib/flexunit-4.0.0.swc</path>
+			<asDoc>http://docs.flexunit.org/asdocs/index.html</asDoc>
+			<source></source>
+		</swc>
+		<swc>
+			<path>lib/flexunit-uilistener-4.0.0.swc</path>
+			<asDoc>http://docs.flexunit.org/asdocs/index.html</asDoc>
+			<source></source>
+		</swc>
+	</libraries>
+</tns:projectTemplate>

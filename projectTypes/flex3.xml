@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:projectType xmlns:tns="http://fdt.powerflasher.com/ProjectType"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://fdt.powerflasher.com/ProjectType projectType.xsd ">
+	<name>Flex 3</name>
+	<description>This project type defines a Flex project for Flash Player. 
+It contains all necessary libraries according to the selected SDK and Flash Player version. No special compiler arguments are defined.</description>
+	<compatibleSdks>
+		<sdk min="3" max="3"/>
+	</compatibleSdks>
+	<swcs>
+		<swc>
+			<path>frameworks/libs/player/{playerVersion}/playerglobal.swc</path>
+		</swc>
+		<swc>
+			<path>frameworks/libs/flex.swc</path>
+		</swc>
+		<swc>
+			<path>frameworks/libs/framework.swc</path>
+		</swc>
+		<swc>
+			<path>frameworks/libs/rpc.swc</path>
+		</swc>
+		<swc>
+			<path>frameworks/libs/utilities.swc</path>
+		</swc>
+	</swcs>
+	<runtime>Flash Player</runtime>
+	<compatiblePlayers>
+		<player default="true">External SWF Viewer</player>
+		<player default="false">Browser</player>
+		<player default="false">Standalone Flash Player</player>
+	</compatiblePlayers>
+	<compilerArguments passClasspath="true" passMainclass="true" passSwcs="true" passRsls="false">
+		<argument>-target-player={playerVersion}</argument>
+		<argument>-library-path+="{flexSDK}/frameworks/locale/en_US"</argument>
+		<argument>-default-size=550,400</argument>
+	</compilerArguments>
+</tns:projectType>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fdt.powerflasher.com/ProjectType"
+	xmlns:tns="http://fdt.powerflasher.com/ProjectType">
+	<element name="projectType">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+				<element name="description" type="string"></element>
+
+				<element name="compatibleSdks">
+					<complexType>
+						<sequence>
+							<element name="sdk" type="tns:Sdk" minOccurs="1"
+								maxOccurs="unbounded"></element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="swcs">
+					<complexType>
+						<sequence>
+							<element name="swc" type="tns:Swc" minOccurs="1"
+								maxOccurs="unbounded"></element>
+						</sequence>
+					</complexType>
+				</element>
+
+				<element name="runtime" type="tns:Runtime"></element>
+				<element name="compatiblePlayers">
+					<complexType>
+						<sequence>
+							<element name="player" type="tns:Player" minOccurs="0"
+								maxOccurs="unbounded"></element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="compilerArguments" type="tns:CompilerArguments"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<simpleType name="SimplePlayer">
+		<restriction base="string">
+			<enumeration value="Standalone Flash Player"></enumeration>
+			<enumeration value="Browser"></enumeration>
+			<enumeration value="External SWF Viewer"></enumeration>
+			<enumeration value="AIR Debug Launcher"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="Player">
+		<simpleContent>
+			<extension base="tns:SimplePlayer">
+				<attribute name="default" type="boolean" use="required"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="SimpleCompilerArguments">
+		<sequence>
+			<element name="argument" type="string" minOccurs="0"
+				maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="CompilerArguments">
+		<complexContent>
+			<extension base="tns:SimpleCompilerArguments">
+				<attribute name="passClasspath" type="boolean" use="required"></attribute>
+				<attribute name="passSwcs" type="boolean" use="required"></attribute>
+				<attribute name="passMainclass" type="boolean" use="required"></attribute>
+				<attribute name="passRsls" type="boolean" use="required"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Sdk">
+		<attribute name="min" use="required"></attribute>
+		<attribute name="max" use="optional"></attribute>
+	</complexType>
+
+	<complexType name="Swc">
+		<sequence>
+			<element name="path" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="Runtime">
+		<restriction base="string">
+			<enumeration value="Flash Player"></enumeration>
+			<enumeration value="AIR"></enumeration>
+		</restriction>
+	</simpleType>
+
+</schema>

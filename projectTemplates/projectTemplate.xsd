@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fdt.powerflasher.com/ProjectTemplate"
+	xmlns:tns="http://fdt.powerflasher.com/ProjectTemplate">
+	<element name="projectTemplate">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+				<element name="description" type="string"></element>
+				<element name="projectType" type="string"></element>
+				<element name="folders" type="tns:Folders"></element>
+				<element name="libraries" type="tns:Libraries"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="Folders">
+		<sequence>
+			<element name="sourceFolder" type="string" minOccurs="1"
+				maxOccurs="unbounded"></element>
+			<element name="outputFolder" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Libraries">
+		<sequence>
+			<element name="swc" type="tns:Swc" minOccurs="0"
+				maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Swc">
+		<sequence>
+			<element name="path" type="string"></element>
+			<element name="asDoc" type="string" minOccurs="0"></element>
+			<element name="source" type="string" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	
+</schema>
