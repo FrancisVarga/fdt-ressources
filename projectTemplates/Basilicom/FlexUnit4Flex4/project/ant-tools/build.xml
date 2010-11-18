@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<project name="BasCore-Framework" basedir="." default="Generate Build">
+	<!-- set up a prefix for all environment variables -->
+	<property environment="env." />
+	<!-- identify properties file -->
+	<property file="build.properties" />
+	<!-- System environment must contain FLEX_HOME variable that points to Flex SDK -->
+	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
+	<property name="FLEX_PMD" location="${env.FLEXPMD}" />
+	
+	<buildnumber file="ant-tools/build.num" />
+
+	<target name="Clean Project">
+		<delete>
+			<fileset dir="${bin.loc}" defaultexcludes="false">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${doc.loc}" defaultexcludes="false">
+				<include name="**/*" />
+			</fileset>
+		</delete>
+		<mkdir dir="${doc.loc}"/>
+		<mkdir dir="${bin.loc}"/>
+	</target>
+
+	<!-- ================================= 
+	target: Generate Doc API   
+	================================== -->
+	<target name="Generate AS3Doc">
+		<echo>[asdoc] Generating ASDOC documentation</echo>
+		<echo>[asdoc] ${basedir}/tools/examples</echo>
+		<tstamp>
+			<format property="docgen.time" pattern="MM/dd/yyyy hh:mm aa" unit="hour" />
+		</tstamp>
+		<java jar="${FLEX_HOME}/lib/asdoc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+			<arg line="-external-library-path ${lib.loc}" />
+			<arg line="-doc-sources ${main.src.loc}" />
+			<arg line="-source-path ${main.src.loc}" />
+			<arg line="-output ${doc.loc}" />
+			<arg line="-examples-path ${basedir}/ant-tools/examples" />
+			<arg line="-window-title 'BasCore Framework Basilicom GmbH ${basCore.major.version}.${basCore.minor.version}.${build.number}'" />
+			<arg line="-main-title 'BasCore Framework Basilicom GmbH ${basCore.major.version}.${basCore.minor.version}.${build.number}'" />
+			<!-- Arguments values -->
+			<arg value="-keep-xml=true" />
+			<arg value="-lenient=true" />
+			<arg value="-verbose-stacktraces=true" />
+			<arg value="-accessible=true" />
+			<arg value="-optimize=true" />
+			<arg value="-benchmark=true" />
+		</java>
+		<echo>[asdoc] ASDOC documentation generated successfully ${docgen.time}</echo>
+	</target>
+
+	<!-- ================================= 
+	target: Compile SWC and generate new Docs       
+	================================== -->
+	<target name="Compile" depends="Clean Project">
+		<echo>[compile] Compiling release SWC</echo>
+		<echo>[compile] Using Flex SDK at: ${FLEX_HOME}</echo>
+		<java jar="${FLEX_HOME}/lib/compc.jar" dir="${FLEX_HOME}/frameworks/" fork="true" failonerror="true">
+			<!-- Build our SWC with a versioned name. -->
+			<arg value="-output=${bin.loc}/${project.name}.${basCore.major.version}.${basCore.minor.version}.${build.number}.swc" />
+			<!-- We want all the org package classes in the SWC being built. -->
+			<arg value="-include-sources=${main.src.loc}" />
+			<arg value="-include-libraries+=${lib.loc}/greensock.swc" />
+			<arg value="-include-libraries+=${lib.loc}/as3corelib.swc" />
+			<arg value="-include-libraries+=${lib.loc}/as3crypto-1_3_patched.swc" />
+			<arg value="-include-libraries+=${lib.loc}/as3-utils-0.1.swc" />
+			<!-- Include classes from SWCs in this folder, but only the ones we use. -->
+			<arg value="-library-path+=${lib.loc}" />
+			<!-- Keep the magic alive. -->
+			<arg value="-keep-as3-metadata+=Inject" />
+			<arg value="-keep-as3-metadata+=PostConstruct" />
+			<!-- Boolean mosh pit! -->
+			<arg value="-static-link-runtime-shared-libraries=true" />
+			<arg value="-verbose-stacktraces=true" />
+			<arg value="-benchmark=true" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/player/10.0/playerglobal.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/textLayout.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/framework.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/rpc.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/spark.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/sparkskins.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/utilities.swc" />
+			<arg value="-compiler.external-library-path+=${FLEX_HOME}/frameworks/libs/datavisualization.swc" />
+		</java>
+		<echo>[compile] Release SWC ${project.name}.${basCore.major.version}.${basCore.minor.version}.${build.number}.swc created successfully</echo>
+	</target>
+
+	<!-- ================================= 
+          target: Generate Build              
+         ================================= -->
+	<target name="Generate Build" depends="Clean Project, Compile, Generate AS3Doc" description="Generate a AsDocs and Compile a new SWC">
+		<delete>
+			<fileset dir="${bin.loc}" defaultexcludes="false">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${doc.loc}" defaultexcludes="false">
+				<include name="**/*" />
+			</fileset>
+		</delete>
+	</target>
+
+
+</project>

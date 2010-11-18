@@ -1,0 +1,276 @@
+<project name="Ant Build Script with Git Support">
+
+	<!-- 
+    Start user specific the global configuration properties.
+  -->
+	<property file="build.properties" />
+	<!-- 
+    End user specific the global configuration properties.
+  -->
+
+	<!--
+    Start Git Macros
+  -->
+	<macrodef name="git">
+		<attribute name="command" />
+		<attribute name="options" default="" />
+		<attribute name="dir" default="" />
+		<element name="args" optional="true" />
+		<sequential>
+			<echo message="git @{command}" />
+			<exec executable="git" dir="@{dir}">
+				<arg value="@{command}" />
+				<args />
+			</exec>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="git-branch">
+		<attribute name="branch" />
+		<attribute name="options" />
+		<sequential>
+			<git command="branch">
+				<args>
+					<arg value="@{branch}" />
+					<arg value="@{options}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-push-to-branch">
+		<attribute name="branch" />
+		<attribute name="remoteRepositoryName" />
+		<sequential>
+			<git command="push">
+				<args>
+					<arg value="@{remoteRepositoryName}" />
+					<arg value="@{branch}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-add-remote">
+		<attribute name="repository" />
+		<sequential>
+			<git command="rem">
+				<args>
+					<arg value="@{repository}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-submodule-add">
+		<attribute name="repository" />
+		<attribute name="destination" />
+		<sequential>
+			<git command="ads">
+				<args>
+					<arg value="@{repository}" />
+					<arg value="${submodule.dir}/@{destination}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-commit-with-message">
+		<attribute name="message" />
+		<sequential>
+			<git command="ca">
+				<args>
+					<arg value="@{message}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-checkout">
+		<attribute name="branch" />
+		<sequential>
+			<git command="co">
+				<args>
+					<arg value="@{branch}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-merge-branch">
+		<attribute name="branchFrom" />
+		<attribute name="branchInTo" />
+		<sequential>
+			<git command="checkout">
+				<args>
+					<arg value="@{branchInTo}" />
+				</args>
+			</git>
+			<git command="merge">
+				<args>
+					<arg value="@{branchFrom}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-add">
+		<attribute name="file" />
+		<sequential>
+			<git command="add">
+				<args>
+					<arg value="@{file}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-tag">
+		<attribute name="tagName" />
+		<sequential>
+			<git command="tag">
+				<args>
+					<arg value="@{tagName}" />
+				</args>
+			</git>
+			<git command="push">
+				<args>
+					<arg value="--tags" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-clone">
+		<attribute name="repository" />
+		<attribute name="dest" />
+		<sequential>
+			<git command="clone">
+				<args>
+					<arg value="@{repository}" />
+					<arg value="@{dest}" />
+				</args>
+			</git>
+			<git command="pull" dir="@{dest}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-log">
+		<sequential>
+			<git command="log">
+				<args>
+					<arg value="--stat" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="git-pull">
+		<attribute name="fromBranch" />
+		<sequential>
+			<git command="pull">
+				<args>
+					<arg value="@{fromBranch}" />
+				</args>
+			</git>
+		</sequential>
+	</macrodef>
+
+	<!--
+    End Git Macros
+  -->
+
+	<!--
+    Start Tasks
+  -->
+	<target name="[Git] Init Git">
+		<git command="init" />
+	</target>
+
+	<target name="[Git] Add all files">
+		<git-add file="." />
+	</target>
+
+	<target name="[Git] Commit all with message">
+		<input message="Type your message!" addproperty="commitMsg" defaultvalue="Please insert here your commit message!" />
+		<git-commit-with-message message="${commitMsg}" />
+	</target>
+
+	<target name="[Git] Initial commit to GitHub" depends="[Git] Add all files">
+		<git-add-remote repository="${git.repository}" />
+		<git command="pom" />
+	</target>
+
+	<target name="[Git] Push to Branch" depends="[Git] Add all files, [Git] Commit all with message">
+		<input message="Branch Name" addproperty="branch" defaultvalue="master" />
+		<git-push-to-branch remoterepositoryname="origin" branch="${branch}" />
+	</target>
+
+	<target name="[Git] Checkout Branch">
+		<input message="Branch Name" addproperty="branch" defaultvalue="NewBranch" />
+		<git-checkout branch="${branch}" />
+	</target>
+
+	<target name="[Git] Merge Branches">
+		<input message="From Branch" addproperty="fromBranch" />
+		<input message="Into Branch" addproperty="intoBranch" />
+		<git-merge-branch branchfrom="${fromBranch}" branchinto="${intoBranch}" />
+	</target>
+
+	<target name="[Git] Pull">
+		<input message="Pull From Branch" addproperty="fromBranch" />
+		<git-pull frombranch="${fromBranch}" />
+	</target>
+
+	<target name="[Git] Show Log">
+		<git-log />
+	</target>
+
+	<target name="[Git] Tag">
+		<input message="Tag Name" addproperty="tagName" />
+		<git-tag tagname="${tagName}" />
+	</target>
+
+	<target name="[Git] Show Branches">
+		<git command="branch" />
+	</target>
+
+	<target name="[Git] Show Status">
+		<git command="status" />
+	</target>
+
+	<target name="[Git] Delete Branch">
+		<input message="Branch Name" addproperty="branch" />
+		<git-branch branch="${branch}" options="-d" />
+	</target>
+
+	<target name="[Git] Cleanup Repository">
+		<git command="gc" options="--prune" />
+	</target>
+
+	<target name="[Git] Search">
+		<input message="Search" addproperty="search" />
+		<git command="grep" options="'${search}'" />
+	</target>
+
+	<target name="[Git] Show Diff">
+		<git command="diff" />
+	</target>
+
+	<target name="[Git] Show Help of a Command">
+		<input message="Command for showing help" addproperty="helpCMD" />
+		<git command="help">
+			<args>
+				<arg value="${helpCMD}" />
+			</args>
+		</git>
+	</target>
+
+	<target name="[GIT] Create Changelog" description="this create a changelog">
+		<git command="changelog">
+		</git>
+	</target>
+	<!--
+    End Tasks
+  -->
+</project>
