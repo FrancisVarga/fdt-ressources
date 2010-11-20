@@ -21,5 +21,8 @@
 			<asDoc>http://docs.flexunit.org/asdocs/index.html</asDoc>
 			<source></source>
 		</swc>
+		<swc>
+			<path>libs/BasCore_FDT>swc</path>
+		</swc>
 	</libraries>
 </tns:projectTemplate>
