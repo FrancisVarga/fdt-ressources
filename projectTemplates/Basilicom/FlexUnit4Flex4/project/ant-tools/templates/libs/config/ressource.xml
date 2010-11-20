@@ -1,0 +1,44 @@
+<configs>
+
+	<!-- Das ist die configuration vom RPCClient -->
+	<rpcConfig>
+		<httpMethod>POST</httpMethod>
+		<!-- true => Alles request gehen über die debugURL und ungecryptet false 
+			=> Live URL und nur gecrypted -->
+		<debugMode>true</debugMode>
+		<liveURL>http://basilicom.appdev.exitb.de/svz_bmfsf_vzdialog/application/public/vz/api/v1/gateway/index.php</liveURL>
+		<debugURL>http://basilicom.appdev.exitb.de/svz_bmfsf_vzdialog/application/public/cms/api/v1/gateway.debug/index.php</debugURL>
+		<!-- localhost => locale entwicklung Es werden die BaseParams benutzt -->
+		<plattform>localhost</plattform>
+		<!-- nur local diesen node ausfüllen -->
+		<baseParams><![CDATA[{"osenv":{"viewer":{"id":"sandbox.developer.studivz.net:-JDYFHfPDLpBqmC1UtVhNQ"}, "owner":{"id":"sandbox.developer.studivz.net:-JDYFHfPDLpBqmC1UtVhNQ"}}, "appVersion":1000, "appId":"start", "svzenv":{"aid":"4322", "viewer":"obosolete", "owner":"obosolete", "view":"profile", "container":"avz"}}]]></baseParams>
+		<!-- Für VZ gib es einen Image Proxy, URL hier eingeben -->
+		<imageProxy>http://basilicom.appdev.exitb.de/svz_bmfsf_vzdialog/application/public/vz/api/v1</imageProxy>
+		<classPaths>
+			<item id="cmsClassPath">
+				<path>cms.services.CmsService.</path>
+			</item>
+		</classPaths>
+	</rpcConfig>
+
+	<modules>
+		<cmsservice>true</cmsservice>
+	</modules>
+
+	<!--<globalConfig> <sosLogger> <!-- 0 = LOG // 1 = DEBUG // 3 = LIVE <level>3</level> 
+		<connect>true</connect> <useTraceOutput>true</useTraceOutput> </sosLogger> 
+		</globalConfig> <modules> <cmsservice>true</cmsservice> <highScoreService>true</highScoreService> 
+		<infoService>true</infoService> </modules> <ressources> <textManager> <content 
+		id="headline1" source="Lorem Ipsum" textType="HTML" /> <content id="headline2" 
+		source="Lorem Ipsum2" textType="HTML" /> <content id="headline4" source="Lorem 
+		Ipsum5" textType="HTML" /> </textManager> <bulkloader loadingInBackground="false" 
+		sumOfParallelLoadingItems="3"> <swf id="swf1" source="assets/images/beachTheme_Himmel.swf" 
+		/> <swf id="swf2" source="assets/beachTheme_alleElemente.swf" /> <swf id="swf3" 
+		source="assets/images/himmel.swf" /> <swf id="swf4" source="assets/images/beachTheme_alleElemente.swf" 
+		/> <swf id="swf5" source="assets/images/beachTheme_vegetation_palmen.swf" 
+		/> <swf id="swf6" source="assets/images/beachTheme_vegetation_kakteen.swf" 
+		/> <swf id="swf7" source="assets/images/beachTheme_vegetation_duenenGras.swf" 
+		/> <swf id="swf8" source="assets/images/beachTheme_vegetation_baeume.swf" 
+		/> <img id="img1" source="assets/images/paperWizard2.png" /> <img id="img1" 
+		source="assets/images/paperWizard2.png" /> </bulkloader> </ressources> -->
+</configs>
