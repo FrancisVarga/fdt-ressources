@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
-<project name="BasCore-Framework" basedir="." default="Generate Build">
+<project name="Build-Tool" basedir="../" default="Generate Build">
 	<!-- set up a prefix for all environment variables -->
 	<property environment="env." />
+	
 	<!-- identify properties file -->
-	<property file="build.properties" />
+	<property file="config/build.properties" />
+	<property file="config/project.properties"></property>
+	
 	<!-- System environment must contain FLEX_HOME variable that points to Flex SDK -->
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
-	<property name="FLEX_PMD" location="${env.FLEXPMD}" />
+	<echo>[FOUND]${FLEX_HOME}</echo>
+	<property name="FLEX_PMD" location="${env.FLEX_PMD}" />
+	<echo>[FOUND]${FLEX_PMD}</echo>
 	
-	<buildnumber file="ant-tools/build.num" />
+	<buildnumber file="ant-tools/misc/build.num" />
 
 	<target name="Clean Project">
 		<delete>

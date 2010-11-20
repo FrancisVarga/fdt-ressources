@@ -1,24 +1,5 @@
-/*
-
-Copyright (c) @year@ @company.name@, All Rights Reserved 
-
-@author   @author.name@
-@contact  @author.email@
-@project  @project.name@
-
-@internal 
-
-*/
-package @namespace@.controller 
-{
-	import flash.utils.describeType;
-	import mx.logging.Log;
-	
-	import mx.logging.ILogger;
-	
-	import org.robotlegs.base.ContextEvent;
-	import org.robotlegs.mvcs.Command;
-	
+package @namespace@.commands 
+{	
 	/**
 	 *
 	 * Defines the associated <code>Command</code> implementation for 
@@ -35,15 +16,10 @@ package @namespace@.controller
 	 * @see org.robotlegs.mvcs.Command
 	 *
 	 */
-	public final class @gesture@Command extends Command 
+	public final class @gesture@Command extends BasCommand 
 	{
-		/**
-		 * Create variable to point to this class. 
-		 * 
-		 * @private
-		 *
-		 */     	
-		private var logger:ILogger = Log.getLogger(describeType(this).@name.split("::").join("."));
+		
+		import de.basilicom.core.basMVCS.BasCommand;
 		
 		/**
 		 *
@@ -51,11 +27,8 @@ package @namespace@.controller
 		 *
 		 */        
 		override public function execute():void    
-		{
-			// logging command to logging API
-			logger.info("execute");        	
-			
-			// Do some custom startup stuff here!
+		{			
+		
 		}
 	}
 }

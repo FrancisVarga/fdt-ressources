@@ -1,16 +1,16 @@
-<project name="Ant Build Script with Git Support">
+<project name="Git-Tool">
 
 	<!-- 
     Start user specific the global configuration properties.
-  -->
+  	-->
 	<property file="build.properties" />
 	<!-- 
     End user specific the global configuration properties.
-  -->
+  	-->
 
 	<!--
     Start Git Macros
-  -->
+ 	 -->
 	<macrodef name="git">
 		<attribute name="command" />
 		<attribute name="options" default="" />
@@ -24,7 +24,7 @@
 			</exec>
 		</sequential>
 	</macrodef>
-	
+
 	<macrodef name="git-branch">
 		<attribute name="branch" />
 		<attribute name="options" />
@@ -272,5 +272,5 @@
 	</target>
 	<!--
     End Tasks
-  -->
+  	-->
 </project>
